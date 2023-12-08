@@ -1,4 +1,4 @@
-"""Modules to test functions related to Reddit's API"""
+"""Module to test functions related to Reddit's API"""
 import unittest
 from unittest.mock import patch
 from scripts.reddit_api import (

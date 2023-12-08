@@ -1,4 +1,4 @@
-"""Modules to interact with Reddit's API"""
+"""Module to interact with Reddit's API"""
 import praw
 from config import (
     REDDIT_CLIENT_ID,
