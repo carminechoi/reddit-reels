@@ -7,7 +7,9 @@ def main():
     """Main logic loop"""
     # Step 1: Fetch Reddit post
     reddit_post = reddit_api.fetch_reddit_post(SUBREDDIT)
-    print(reddit_post.comments[0].body)
+
+    if reddit_post is None:
+        pass
 
     # Step 2: Convert Reddit post content to speech
 

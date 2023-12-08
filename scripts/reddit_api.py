@@ -17,8 +17,9 @@ def fetch_reddit_post(subreddit_name: str) -> RedditPost:
         subreddit_name (str): The name of the subreddit.
 
     Returns:
-        RedditPost: An instance of RedditPost representing the top, text-based post.
+        RedditPost or None: An instance of RedditPost representing the top, text-based post or None if no submission is found.
     """
+
     reddit = praw.Reddit(
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_CLIENT_SECRET,
@@ -26,7 +27,6 @@ def fetch_reddit_post(subreddit_name: str) -> RedditPost:
     )
 
     subreddit = reddit.subreddit(subreddit_name)
-
     top_submission = subreddit.top(time_filter="day")
 
     for submission in top_submission:
@@ -43,6 +43,9 @@ def fetch_reddit_post(subreddit_name: str) -> RedditPost:
                 comments,
             )
             return reddit_post
+
+    # Return None if no text submission exists
+    return None
 
 
 def create_comment_list(comments) -> list[RedditComment]:
@@ -67,4 +70,7 @@ def create_comment_list(comments) -> list[RedditComment]:
 
 if __name__ == "__main__":
     post_content = fetch_reddit_post("askreddit")
-    print(f"Fetched Reddit post content: {post_content}")
+    if post_content:
+        print(f"Fetched Reddit post content: {post_content.title}")
+    else:
+        print("No suitable submission found.")
