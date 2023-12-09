@@ -15,8 +15,9 @@ def text_to_speech(post: RedditPost) -> str:
     Returns:
         file_path (str): Output audio file path.
     """
-    # Delete file
-    os.remove(AUDIO_FILE_PATH)
+    # Remove the file if it exists
+    if os.path.exists(AUDIO_FILE_PATH):
+        os.remove(AUDIO_FILE_PATH)
 
     character_count = 0
 
