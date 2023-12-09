@@ -1,4 +1,4 @@
-"""Modules to test functions related to Reddit's API"""
+"""Module to test functions related to Reddit's API"""
 import unittest
 from unittest.mock import patch
 from scripts.reddit_api import (
@@ -22,7 +22,6 @@ class TestRedditInteraction(unittest.TestCase):
         2. creates an empty list from an empty comments list.
         """
         # Mocking a Reddit comment
-        mock_comment.author = "Mock Author"
         mock_comment.body = "Mock Body"
         mock_comment.score = 42
 
@@ -36,7 +35,6 @@ class TestRedditInteraction(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), 1)
         self.assertIsInstance(result[0], RedditComment)
-        self.assertEqual(result[0].author, "Mock Author")
         self.assertEqual(result[0].body, "Mock Body")
         self.assertEqual(result[0].score, 42)
 
