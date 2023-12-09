@@ -10,3 +10,4 @@ SUBREDDIT = "showerthoughts"
 
 # Text to Speech Configuration
 AUDIO_FILE_PATH = "speech_audio.mp3"
+CHARACTER_COUNT = 200

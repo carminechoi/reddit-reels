@@ -1,7 +1,7 @@
 """Module to convert Text to Speech"""
 from gtts import gTTS
 from models.reddit_post import RedditPost
-from config import AUDIO_FILE_PATH
+from config import AUDIO_FILE_PATH, CHARACTER_COUNT
 import os
 
 
@@ -31,7 +31,7 @@ def text_to_speech(post: RedditPost) -> str:
         if value:
             if key == "comments":
                 for comment in value:
-                    if character_count > 200:
+                    if character_count > CHARACTER_COUNT:
                         break
                     write_to_file(comment.body)
             else:
