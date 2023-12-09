@@ -10,11 +10,13 @@ def main():
     reddit_post = fetch_reddit_post(SUBREDDIT)
 
     if reddit_post is None:
-        pass
+        print("No text based submission")
+        return
+    print("Retrieved {SUBREDDIT} post")
 
     # Step 2: Convert Reddit post content to speech
-    title = reddit_post.title
-    file_path = text_to_speech(title)
+    audio_file_path = text_to_speech(reddit_post)
+    print("Saved audio to {audio_file_path}")
 
     # Step 3: Capture gamplay footage
 
