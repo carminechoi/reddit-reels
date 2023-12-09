@@ -1,8 +1,16 @@
 """Module to convert Text to Speech"""
+import os
 from gtts import gTTS
 from models.reddit_post import RedditPost
 from config import AUDIO_FILE_PATH, CHARACTER_COUNT
-import os
+
+
+def delete_file_if_exists(path):
+    """
+    Delete the file if it exists
+    """
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def text_to_speech(post: RedditPost) -> str:
@@ -15,9 +23,7 @@ def text_to_speech(post: RedditPost) -> str:
     Returns:
         file_path (str): Output audio file path.
     """
-    # Remove the file if it exists
-    if os.path.exists(AUDIO_FILE_PATH):
-        os.remove(AUDIO_FILE_PATH)
+    delete_file_if_exists(AUDIO_FILE_PATH)
 
     character_count = 0
 
