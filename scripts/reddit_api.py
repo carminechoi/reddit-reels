@@ -31,15 +31,15 @@ def fetch_reddit_post(subreddit_name: str) -> RedditPost:
 
     for submission in top_submission:
         # Find text submission
-        if submission.selftext:
+        if submission.is_self:
             # Create comment list
+            submission.comments.replace_more(limit=0)
             comments = create_comment_list(submission.comments)
 
             # Create reddit post object
             reddit_post = RedditPost(
                 submission.title,
                 submission.selftext,
-                submission.author,
                 comments,
             )
             return reddit_post
@@ -50,7 +50,8 @@ def fetch_reddit_post(subreddit_name: str) -> RedditPost:
 
 def create_comment_list(comments) -> list[RedditComment]:
     """
-    Create a list of RedditComment objects from a comments object.
+    Return first comment and its reply if the reply has over half the upvotes.
+    Otherwise, return the first two comments
 
     Parameters:
         comments: The comments object.
@@ -58,12 +59,11 @@ def create_comment_list(comments) -> list[RedditComment]:
     Returns:
         list[RedditComment]: List of RedditComment objects.
     """
+
     reddit_comments = []
 
     for comment in comments:
-        reddit_comments.append(
-            RedditComment(comment.author, comment.body, comment.score)
-        )
+        reddit_comments.append(RedditComment(comment.body, comment.score))
 
     return reddit_comments
 
@@ -73,4 +73,4 @@ if __name__ == "__main__":
     if post_content:
         print(f"Fetched Reddit post content: {post_content.title}")
     else:
-        print("No suitable submission found.")
+        print("No submission found.")
