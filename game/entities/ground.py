@@ -1,7 +1,12 @@
+"""Ground Module"""
 import pygame
 
 
 class Ground:
+    """
+    Class representing the ground object in the game.
+    """
+
     VEL = 5
 
     def __init__(self, y, ground_img):
@@ -13,6 +18,9 @@ class Ground:
         self.x2 = self.width
 
     def move(self):
+        """
+        Make the ground move based on the birds velocity.
+        """
         self.x1 -= self.VEL
         self.x2 -= self.VEL
 
@@ -23,6 +31,9 @@ class Ground:
             self.x2 = self.x1 + self.width
 
     def collide(self, bird):
+        """
+        Collision detection with the bird.
+        """
         bird_mask = bird.get_mask()
         ground_mask = pygame.mask.from_surface(self.img)
 
@@ -35,5 +46,8 @@ class Ground:
         return False
 
     def draw(self, win):
+        """
+        Draw the ground on the game window.
+        """
         win.blit(self.img, (self.x1, self.y))
         win.blit(self.img, (self.x2, self.y))

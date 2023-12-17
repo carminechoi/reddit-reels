@@ -1,8 +1,13 @@
+"""Pipe Module"""
 import random
 import pygame
 
 
 class Pipe:
+    """
+    Class representing the pipe objects.
+    """
+
     GAP = 180
     VEL = 5
 
@@ -20,14 +25,23 @@ class Pipe:
         self.set_height()
 
     def set_height(self):
+        """
+        Set randome pipe heights.
+        """
         self.height = random.randrange(50, 450)
         self.top = self.height - self.pipe_top.get_height()
         self.bottom = self.height + self.GAP
 
     def move(self):
+        """
+        Move pipes based on velocity.
+        """
         self.x -= self.VEL
 
     def collide(self, bird):
+        """
+        Collision detection with the bird
+        """
         bird_mask = bird.get_mask()
         top_mask = pygame.mask.from_surface(self.pipe_top)
         bottom_mask = pygame.mask.from_surface(self.pipe_bottom)
@@ -43,5 +57,8 @@ class Pipe:
         return False
 
     def draw(self, win):
+        """
+        Draw pipes on the game window.
+        """
         win.blit(self.pipe_top, (self.x, self.top))
         win.blit(self.pipe_bottom, (self.x, self.bottom))
