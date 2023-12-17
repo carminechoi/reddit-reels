@@ -1,11 +1,13 @@
 """ Flappy Bird Module"""
 import os
 import pickle
+import sys
 import pygame
 import neat
-from entities.ground import Ground
-from entities.pipe import Pipe
-from entities.bird import Bird
+from game.entities.ground import Ground
+from game.entities.pipe import Pipe
+from game.entities.bird import Bird
+from config import SCREENSHOT_FILE_PATH
 
 
 class FlappyBirdGame:
@@ -20,6 +22,9 @@ class FlappyBirdGame:
 
         self.win_width, self.win_height = 600, 900
         self.win = pygame.display.set_mode((self.win_width, self.win_height))
+
+        self.filepath = SCREENSHOT_FILE_PATH
+
         self.train_mode = train_mode
         self.gen = 0
 
@@ -42,16 +47,18 @@ class FlappyBirdGame:
             pygame.image.load("game/images/background.png").convert_alpha(), (600, 900)
         )
 
-        self.stat_font = pygame.font.SysFont("comicsans", 50)
+        self.stat_font = pygame.font.SysFont("Arial", 50)
 
-    def run(self):
+    def run(self, frames: int = 0):
         """
         Start the main game logic
         """
         if self.train_mode:
             self.train_ai()
         else:
-            self.play_ai()
+            self.play_ai(frames)
+
+        pygame.quit()
 
     def train_ai(self):
         """
@@ -107,7 +114,6 @@ class FlappyBirdGame:
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
-                    quit()
 
             pipe_index = 0
             if len(birds) > 0:
@@ -170,37 +176,14 @@ class FlappyBirdGame:
                     nets.pop(x)
                     ge.pop(x)
 
-            if score >= 15:
+            if score >= 50:
                 print("score: ", score)
                 run = False
 
             ground.move()
-            self.draw_train_window(self.win, birds, pipes, ground, score, self.gen)
+            self.draw_game_window(self.win, birds, pipes, ground)
 
-    def draw_train_window(self, win, birds, pipes, ground, score, gen):
-        """Draw the training window."""
-        win.blit(self.background_img, (0, 0))
-
-        for pipe in pipes:
-            pipe.draw(win)
-
-        text = self.stat_font.render("Score: " + str(score), 1, (255, 255, 255))
-        win.blit(text, (self.win_width - 10 - text.get_width(), 10))
-
-        text = self.stat_font.render("Gen: " + str(gen), 1, (255, 255, 255))
-        win.blit(text, (10, 10))
-
-        text = self.stat_font.render("Bird Cnt: " + str(len(birds)), 1, (255, 255, 255))
-        win.blit(text, (10, 50))
-
-        ground.draw(win)
-
-        for bird in birds:
-            bird.draw(win)
-
-        pygame.display.update()
-
-    def play_ai(self):
+    def play_ai(self, frames):
         """
         Start the game with the AI
         """
@@ -213,17 +196,13 @@ class FlappyBirdGame:
         pipes = [Pipe(600, self.pipe_img)]
 
         clock = pygame.time.Clock()
+        count = 0
 
-        score = 0
-
-        run = True
-        while run:
+        while frames > 0:
             clock.tick(30)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
                     pygame.quit()
-                    quit()
 
             pipe_index = 0
 
@@ -248,7 +227,7 @@ class FlappyBirdGame:
             rem = []
             for pipe in pipes:
                 if pipe.collide(bird):
-                    run = False
+                    frames = 0
 
                 if not pipe.passed and pipe.x < bird.x:
                     pipe.passed = True
@@ -260,38 +239,39 @@ class FlappyBirdGame:
                 pipe.move()
 
             if add_pipe:
-                score += 1
                 pipes.append(Pipe(600, self.pipe_img))
 
             for r in rem:
                 pipes.remove(r)
 
             if bird.y + bird.img.get_height() >= 730 or bird.y < 0:
-                run = False
-
-            if score >= 50:
-                run = False
+                frames = 0
 
             ground.move()
-            self.draw_ai_window(self.win, bird, pipes, ground, score)
+            self.draw_game_window(self.win, [bird], pipes, ground)
+            self.save_screenshot(str(count) + ".png")
+            frames -= 1
+            count += 1
 
-    def draw_ai_window(self, win, bird, pipes, ground, score):
+    def draw_game_window(self, win, birds, pipes, ground):
         """Draw the ai window."""
         self.win.blit(self.background_img, (0, 0))
 
         for pipe in pipes:
             pipe.draw(win)
 
-        text = self.stat_font.render("Score: " + str(score), 1, (255, 255, 255))
-        self.win.blit(text, (self.win_width - 10 - text.get_width(), 10))
-
         ground.draw(win)
 
-        bird.draw(win)
+        for bird in birds:
+            bird.draw(win)
 
         pygame.display.update()
 
+    def save_screenshot(self, filename):
+        """Save a screenshot of pygame instance"""
+        pygame.image.save(self.win, self.filepath + filename)
+
 
 if __name__ == "__main__":
-    game = FlappyBirdGame()
+    game = FlappyBirdGame(60)
     game.run()
