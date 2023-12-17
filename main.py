@@ -1,6 +1,13 @@
 """Importing scripts"""
 from scripts.reddit_api import fetch_reddit_post
 from scripts.text_to_speech import text_to_speech
+from scripts.create_video import create_video
+from scripts.delete_media import (
+    delete_screenshots,
+    delete_audio_file,
+    delete_video_file,
+)
+from game.flappy_bird_game import FlappyBirdGame
 from config import SUBREDDIT
 
 
@@ -19,8 +26,21 @@ def main():
     print(f"Saved audio to {audio_file_path}")
 
     # Step 3: Capture gamplay footage
+    game = FlappyBirdGame()
+    game.run(100)
+    print("Completed game")
 
-    # Step 4: Combine audio and gameplay video
+    # Step 4: Combine audio and gameplay screenshots
+    create_video()
+    print("Saved video")
+
+    # Step 5: Upload video
+
+    # Step 6: Delete media files
+    delete_screenshots()
+    delete_audio_file()
+    # delete_video_file()
+    print("Deleted media files")
 
 
 if __name__ == "__main__":
