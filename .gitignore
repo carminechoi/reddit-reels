@@ -6,5 +6,7 @@ __pycache__/
 .env
 venv/
 
-# Audio files
+# Media Files
+*.mp4
 *.mp3
+*.png

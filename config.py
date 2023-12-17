@@ -9,5 +9,10 @@ REDDIT_USER_AGENT = config("REDDIT_USER_AGENT")
 SUBREDDIT = "showerthoughts"
 
 # Text to Speech Configuration
-AUDIO_FILE_PATH = "speech_audio.mp3"
+AUDIO_FILE_PATH = "media/speech_audio.mp3"
 CHARACTER_COUNT = 200
+
+
+# Video Configuration
+SCREENSHOT_FILE_PATH = "media/screenshots/"
+VIDEO_FILE_PATH = "media/output.mp4"

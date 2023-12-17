@@ -1,5 +1,5 @@
 [MASTER]
 
 [MESSAGES CONTROL]
-disable=too-few-public-methods
+disable=too-few-public-methods,broad-exception-caught
 extension-pkg-whitelist=pygame
