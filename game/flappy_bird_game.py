@@ -1,7 +1,6 @@
 """ Flappy Bird Module"""
 import os
 import pickle
-import sys
 import pygame
 import neat
 from game.entities.ground import Ground
