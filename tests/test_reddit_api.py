@@ -1,7 +1,7 @@
 """Module to test functions related to Reddit's API"""
 import unittest
 from unittest.mock import patch
-from scripts.reddit_api import (
+from scripts.reddit import (
     create_comment_list,
 )
 from models.reddit_comment import RedditComment

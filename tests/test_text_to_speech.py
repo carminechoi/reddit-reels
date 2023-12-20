@@ -1,9 +1,9 @@
 """Module to test functions related to Text to Speech"""
 import unittest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 from models.reddit_post import RedditPost
 from config import AUDIO_FILE_PATH
-from scripts.text_to_speech import delete_file_if_exists, text_to_speech
+from scripts.audio import delete_file_if_exists, text_to_speech
 
 
 class TestTextToSpeech(unittest.TestCase):

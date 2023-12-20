@@ -1,8 +1,8 @@
 """Importing scripts"""
-from scripts.reddit_api import fetch_reddit_post
-from scripts.text_to_speech import text_to_speech
-from scripts.create_video import create_video
-from scripts.delete_media import (
+from scripts.reddit import fetch_reddit_post
+from scripts.audio import text_to_speech
+from scripts.video import create_video
+from scripts.delete import (
     delete_screenshots,
     delete_audio_file,
     delete_video_file,
