@@ -1,8 +1,19 @@
 """Module to convert Text to Speech"""
 import os
 from gtts import gTTS
+import eyed3
 from models.reddit_post import RedditPost
 from config import AUDIO_FILE_PATH, CHARACTER_COUNT
+
+
+def get_mp3_duration(file_path):
+    """
+    Get mp3 duration in seconds
+    """
+    audiofile = eyed3.load(file_path)
+    if audiofile is not None:
+        return audiofile.info.time_secs
+    return None
 
 
 def delete_file_if_exists(path):

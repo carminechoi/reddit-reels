@@ -1,6 +1,6 @@
 """Importing scripts"""
 from scripts.reddit import fetch_reddit_post
-from scripts.audio import text_to_speech
+from scripts.audio import text_to_speech, get_mp3_duration
 from scripts.video import create_video
 from scripts.delete import (
     delete_screenshots,
@@ -8,7 +8,7 @@ from scripts.delete import (
     delete_video_file,
 )
 from game.flappy_bird_game import FlappyBirdGame
-from config import SUBREDDIT
+from config import SUBREDDIT, AUDIO_FILE_PATH
 
 
 def main():
@@ -23,11 +23,12 @@ def main():
 
     # Step 2: Convert Reddit post content to speech
     audio_file_path = text_to_speech(reddit_post)
+    audio_duration_seconds = get_mp3_duration(AUDIO_FILE_PATH)
     print(f"Saved audio to {audio_file_path}")
 
     # Step 3: Capture gamplay footage
     game = FlappyBirdGame()
-    game.run(100)
+    game.run(audio_duration_seconds * 30)
     print("Completed game")
 
     # Step 4: Combine audio and gameplay screenshots
