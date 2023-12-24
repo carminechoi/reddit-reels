@@ -40,7 +40,11 @@ def text_to_speech(post: RedditPost) -> str:
 
     def write_to_file(text):
         nonlocal character_count
-        tts = gTTS(text, lang="en")
+        tts = gTTS(
+            text,
+            lang="en",
+            slow=False,
+        )
         with open(AUDIO_FILE_PATH, "ab") as f:
             tts.write_to_fp(f)
         character_count += len(text)
