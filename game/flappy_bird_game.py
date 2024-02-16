@@ -1,11 +1,19 @@
 """ Flappy Bird Module"""
+
 import os
 import pickle
 import pygame
 import neat
-from game.entities.ground import Ground
-from game.entities.pipe import Pipe
-from game.entities.bird import Bird
+
+try:
+    from game.entities.ground import Ground
+    from game.entities.pipe import Pipe
+    from game.entities.bird import Bird
+except ImportError:
+    from entities.ground import Ground
+    from entities.pipe import Pipe
+    from entities.bird import Bird
+
 from config import SCREENSHOT_FILE_PATH
 
 
@@ -19,7 +27,7 @@ class FlappyBirdGame:
         pygame.display.set_caption("Blappy Fird")
         pygame.display.set_icon(pygame.image.load("game/images/bird_icon.ico"))
 
-        self.win_width, self.win_height = 600, 900
+        self.win_width, self.win_height = 1080, 1920
         self.win = pygame.display.set_mode((self.win_width, self.win_height))
 
         self.filepath = SCREENSHOT_FILE_PATH
